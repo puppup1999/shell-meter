@@ -133,11 +133,7 @@ function renderMeterTab(container) {
             ${sortedData.length === 0 ? '<p style="text-align:center; opacity:0.5;">กำลังโหลดข้อมูล...</p>' : ''}
             ${sortedData.map((item, idx) => `
                 <div class="card clickable" onclick="toggleDetails(${idx})">
-                    <h2>${formatDate(item.date)} <span style="font-size: 0.8rem; opacity: 0.5;">#${item.readings.length} หัว</span></h2>
-                    <div class="card-summary" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 0.8rem; margin-top: 10px;">
-                        <div>จำนวนที่บันทึก:</div>
-                        <div style="text-align: right; color: var(--accent-color); font-weight: 600;">${item.readings.length} หัว</div>
-                    </div>
+                    <h2>${formatDate(item.date)}</h2>
                     <div id="details-${idx}" class="card-details" style="display: none; margin-top: 15px; border-top: 1px solid var(--glass-border); padding-top: 15px;">
                         <div class="details-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">
                             ${item.readings.map((val, i) => `
