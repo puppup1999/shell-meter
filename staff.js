@@ -2,6 +2,7 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzoo0VGJL2hPfQvbgE6NbNRLohDjzeIjmfJi-_ddbtbX6X7BCLf46UE9NTRRbC6tyEF/exec";
 
 let meterData = JSON.parse(localStorage.getItem('meterData')) || [];
+let displayLimit = 30; // แสดงผลเริ่มต้น 30 รายการ
 
 const headNames = [
     "หัวที่ 1 (VPG)", "หัวที่ 2 (VPG)", "หัวที่ 3 (G91)", "หัวที่ 4 (G91)",
@@ -134,12 +135,13 @@ function generateInputs() {
 function renderMeterHistory() {
     const main = document.getElementById('mainContent');
     const sortedData = [...meterData].sort((a,b) => new Date(b.date) - new Date(a.date));
+    const displayedData = sortedData.slice(0, displayLimit);
     
     main.innerHTML = `
         <div class="view">
             <h2 style="margin-bottom: 15px;">ประวัติการบันทึกของคุณ</h2>
-            ${sortedData.length === 0 ? '<p style="text-align:center; opacity:0.5;">กำลังโหลดข้อมูล...</p>' : ''}
-            ${sortedData.map((item, idx) => `
+            ${displayedData.length === 0 ? '<p style="text-align:center; opacity:0.5;">กำลังโหลดข้อมูล...</p>' : ''}
+            ${displayedData.map((item, idx) => `
                 <div class="card clickable" onclick="toggleDetails(${idx})">
                     <h2>${formatDate(item.date)}</h2>
                     <div id="details-${idx}" class="card-details" style="display: none; margin-top: 15px; border-top: 1px solid var(--glass-border); padding-top: 15px;">
@@ -155,8 +157,17 @@ function renderMeterHistory() {
                     </div>
                 </div>
             `).join('')}
+            
+            ${sortedData.length > displayLimit ? `
+                <button onclick="loadMore()" class="btn-secondary" style="margin-top: 10px; margin-bottom: 30px; background: rgba(56, 189, 248, 0.1); color: var(--accent-color); border-color: var(--accent-color);">ดูข้อมูลย้อนหลังเพิ่ม...</button>
+            ` : ''}
         </div>
     `;
+}
+
+window.loadMore = function() {
+    displayLimit += 30;
+    renderMeterHistory();
 }
 
 window.toggleDetails = function(index) {
