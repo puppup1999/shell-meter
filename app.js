@@ -184,7 +184,12 @@ function renderSalesTab(container) {
                                 <tr><td>เบนซิน 91</td><td style="text-align: right;">${calculateGroup(diffs, [2,3,4,5]).toLocaleString()}</td></tr>
                                 <tr><td>เบนซิน 95</td><td style="text-align: right;">${calculateGroup(diffs, [8,9]).toLocaleString()}</td></tr>
                                 <tr><td>ดีเซล</td><td style="text-align: right;">${calculateGroup(diffs, [10,11,14,15,16,17]).toLocaleString()}</td></tr>
-                                <tr><td>VPG / VPD</td><td style="text-align: right;">${calculateGroup(diffs, [0,1,6,7,12,13]).toLocaleString()}</td></tr>
+                                <tr><td>VPD</td><td style="text-align: right;">${calculateGroup(diffs, [12,13]).toLocaleString()}</td></tr>
+                                <tr><td>VPG</td><td style="text-align: right;">${calculateGroup(diffs, [0,1,6,7]).toLocaleString()}</td></tr>
+                                <tr style="border-top: 2px solid var(--glass-border); font-weight: 600;">
+                                    <td>รวม V-power</td>
+                                    <td style="text-align: right; color: var(--accent-color);">${calculateGroup(diffs, [0,1,6,7,12,13]).toLocaleString()}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
