@@ -21,7 +21,10 @@
         <header>
             <div class="logo">STAFF INPUT</div>
             <div class="date-display" id="currentDate"></div>
-            <button onclick="showPinModal()" style="font-size: 0.6rem; color: var(--text-secondary); background: none; border: 1px solid var(--glass-border); padding: 4px 8px; border-radius: 5px; margin-left: 10px; cursor: pointer;">Go to Manage</button>
+            <div style="display: flex; gap: 5px; align-items: center; margin-left: 10px;">
+                <button onclick="fetchData()" id="refreshBtn" class="btn-refresh" title="Refresh Data">↻</button>
+                <button onclick="showPinModal()" style="font-size: 0.6rem; color: var(--text-secondary); background: none; border: 1px solid var(--glass-border); padding: 4px 8px; border-radius: 5px; cursor: pointer;">Go to Manage</button>
+            </div>
         </header>
 
         <main id="mainContent">

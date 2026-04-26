@@ -17,7 +17,10 @@
         <header>
             <div class="logo">MANAGER PORTAL</div>
             <div class="date-display" id="currentDate"></div>
-            <a href="index.html" style="font-size: 0.6rem; color: var(--text-secondary); text-decoration: none; border: 1px solid var(--glass-border); padding: 2px 5px; border-radius: 5px; margin-left: 10px;">Logout to Staff</a>
+            <div style="display: flex; gap: 5px; align-items: center; margin-left: 10px;">
+                <button onclick="fetchData()" id="refreshBtn" class="btn-refresh" title="Refresh Data">↻</button>
+                <a href="index.html" style="font-size: 0.6rem; color: var(--text-secondary); text-decoration: none; border: 1px solid var(--glass-border); padding: 2px 5px; border-radius: 5px;">Logout to Staff</a>
+            </div>
         </header>
 
         <main id="mainContent">

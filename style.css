@@ -304,3 +304,31 @@ main {
 
 .positive { color: #4ade80; }
 .negative { color: #f87171; }
+
+.btn-refresh {
+    background: none;
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    padding: 2px 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-refresh:active {
+    transform: scale(0.9);
+    background: rgba(255,255,255,0.05);
+}
+
+.spinning {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

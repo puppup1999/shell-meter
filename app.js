@@ -33,6 +33,9 @@ function updateDate() {
 }
 
 async function fetchData() {
+    const refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) refreshBtn.classList.add('spinning');
+    
     try {
         const response = await fetch(SCRIPT_URL);
         const data = await response.json();
@@ -45,6 +48,10 @@ async function fetchData() {
     } catch (error) {
         console.error("Fetch error:", error);
         renderContent();
+    } finally {
+        if (refreshBtn) {
+            setTimeout(() => refreshBtn.classList.remove('spinning'), 500);
+        }
     }
 }
 
