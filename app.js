@@ -47,6 +47,10 @@ async function fetchData() {
     try {
         const response = await fetch(SCRIPT_URL);
         const data = await response.json();
+        
+        // ตรวจสอบความถูกต้องของข้อมูลก่อนเซฟ
+        if (!Array.isArray(data)) throw new Error("Invalid data format");
+        
         meterData = data.map(item => ({
             ...item,
             date: formatDateForInput(item.date)
@@ -55,7 +59,13 @@ async function fetchData() {
         renderContent();
     } catch (error) {
         console.error("Fetch error:", error);
-        renderContent();
+        // ถ้าโหลดไม่สำเร็จ ให้ลองใช้ข้อมูลเก่า แต่ถ้าข้อมูลเก่าเสียให้ล้างทิ้ง
+        try {
+            renderContent();
+        } catch (e) {
+            localStorage.removeItem('meterData');
+            location.reload();
+        }
     } finally {
         if (refreshBtn) {
             setTimeout(() => refreshBtn.classList.remove('spinning'), 500);
@@ -190,15 +200,16 @@ window.editEntry = function(date) {
 
 function renderSalesTab(container) {
     const sorted = [...meterData].sort((a,b) => new Date(b.date) - new Date(a.date));
-    
+    const displayedSales = sorted.slice(0, displayLimit + 1); // +1 เพราะต้องใช้เทียบกับวันก่อนหน้า
+
     container.innerHTML = `
         <div class="view">
             <h2>รายงานยอดขายรายวัน</h2>
-            ${sorted.map((item, index) => {
-                const prev = sorted[index + 1];
+            ${displayedSales.map((item, index) => {
+                const prev = sorted[sorted.findIndex(d => d.date === item.date) + 1];
                 if (!prev) return '';
                 
-                const diffs = item.readings.map((val, i) => val - prev.readings[i]);
+                const diffs = item.readings.map((val, i) => (val || 0) - (prev.readings[i] || 0));
                 const totalSales = diffs.reduce((a,b) => a+b, 0);
 
                 return `
@@ -223,6 +234,10 @@ function renderSalesTab(container) {
                     </div>
                 `;
             }).join('')}
+
+            ${sorted.length > displayLimit ? `
+                <button onclick="loadMore()" class="btn-secondary" style="margin-top: 10px; margin-bottom: 30px; background: rgba(56, 189, 248, 0.1); color: var(--accent-color); border-color: var(--accent-color);">ดูยอดขายย้อนหลังเพิ่ม...</button>
+            ` : ''}
         </div>
     `;
 }
