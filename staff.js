@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function updateDate() {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('th-TH', options);
+    const d = new Date();
+    document.getElementById('currentDate').textContent = formatDate(d);
 }
 
 async function fetchData() {
@@ -44,7 +44,10 @@ function formatDateForInput(dateStr) {
     if (d.getFullYear() > 2400) {
         d.setFullYear(d.getFullYear() - 543);
     }
-    return d.toISOString().split('T')[0];
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
 }
 
 function setupEventListeners() {
@@ -203,9 +206,11 @@ async function saveData() {
 }
 
 function formatDate(dateStr) {
-    let d = new Date(dateStr);
-    if (d.getFullYear() > 2400) {
-        d.setFullYear(d.getFullYear() - 543);
-    }
-    return d.toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' });
+    const d = new Date(dateStr);
+    const day = d.getDate().toString().padStart(2, '0');
+    const monthNames = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+    const month = monthNames[d.getMonth()];
+    let year = d.getFullYear();
+    if (year < 2400) year += 543;
+    return `${day} ${month} ${year}`;
 }
