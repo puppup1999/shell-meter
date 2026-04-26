@@ -42,9 +42,13 @@
                 <button class="close-modal">&times;</button>
             </div>
             <form id="meterForm">
-                <div class="form-group date-input" style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 5px; color: var(--text-secondary);">วันที่</label>
-                    <input type="date" id="inputDate" required style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; padding: 12px; border-radius: 12px;">
+                <div class="form-group date-input" style="margin-bottom: 25px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--accent-color); font-weight: 600; font-size: 1rem;">เลือกวันที่บันทึก</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button type="button" onclick="adjustDate(-1)" class="btn-secondary" style="width: 50px; font-size: 1.2rem;">-</button>
+                        <input type="date" id="inputDate" required style="flex: 1; background: rgba(255,255,255,0.1); border: 2px solid var(--glass-border); color: white; padding: 15px; border-radius: 15px; font-size: 1.2rem; text-align: center;">
+                        <button type="button" onclick="adjustDate(1)" class="btn-secondary" style="width: 50px; font-size: 1.2rem;">+</button>
+                    </div>
                 </div>
                 <div class="heads-grid" id="headsGrid">
                     <!-- 18 Inputs -->

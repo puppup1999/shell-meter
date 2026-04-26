@@ -24,6 +24,13 @@ function updateDate() {
     document.getElementById('currentDate').textContent = formatDate(d);
 }
 
+window.adjustDate = function(amount) {
+    const dateInput = document.getElementById('inputDate');
+    const d = new Date(dateInput.value || new Date());
+    d.setDate(d.getDate() + amount);
+    dateInput.value = d.toISOString().split('T')[0];
+}
+
 async function fetchData() {
     const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) refreshBtn.classList.add('spinning');
