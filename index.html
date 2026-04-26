@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ระบบบันทึกมิเตอร์ (สำหรับพนักงาน)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <style>
+        /* Staff specific tweaks */
+        .bottom-nav { display: none; } /* No tabs needed */
+        #app { padding-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="logo">STAFF INPUT</div>
+            <div class="date-display" id="currentDate"></div>
+            <button onclick="showPinModal()" style="font-size: 0.6rem; color: var(--text-secondary); background: none; border: 1px solid var(--glass-border); padding: 4px 8px; border-radius: 5px; margin-left: 10px; cursor: pointer;">Go to Manage</button>
+        </header>
+
+        <main id="mainContent">
+            <!-- Meter history list -->
+        </main>
+
+        <button id="addBtn" class="fab">+</button>
+    </div>
+
+    <!-- Modal for Data Entry (Same as Manager) -->
+    <div id="entryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>บันทึกเลขมิเตอร์</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="meterForm">
+                <div class="form-group date-input" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; color: var(--text-secondary);">วันที่</label>
+                    <input type="date" id="inputDate" required style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; padding: 12px; border-radius: 12px;">
+                </div>
+                <div class="heads-grid" id="headsGrid">
+                    <!-- 18 Inputs -->
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">บันทึกข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PIN Modal for Manager Access -->
+    <div id="pinModal" class="modal">
+        <div class="modal-content" style="max-width: 320px; margin-bottom: 20vh;">
+            <div class="modal-header">
+                <h3>ยืนยันตัวตนผู้จัดการ</h3>
+                <button onclick="document.getElementById('pinModal').style.display='none'" class="close-modal">&times;</button>
+            </div>
+            <div style="text-align: center; padding: 20px 0;">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">กรุณาใส่รหัสผ่าน</p>
+                <input type="password" id="managerPin" maxlength="10" autofocus 
+                       style="width: 100%; letter-spacing: 15px; text-align: center; font-size: 2rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; padding: 15px; border-radius: 15px; outline: none; border-color: var(--accent-color);">
+                <div id="pinError" style="color: #f87171; font-size: 0.8rem; margin-top: 10px; display: none;">รหัสผ่านไม่ถูกต้อง!</div>
+                <button onclick="checkPin()" class="btn-primary" style="margin-top: 20px;">เข้าสู่ระบบ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="staff.js"></script>
+</body>
+</html>
