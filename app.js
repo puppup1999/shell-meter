@@ -50,6 +50,10 @@ async function fetchData() {
 
 function formatDateForInput(dateStr) {
     const d = new Date(dateStr);
+    // หากปีมากกว่า 2400 แสดงว่าเป็น พ.ศ. ให้แปลงเป็น ค.ศ. ก่อน
+    if (d.getFullYear() > 2400) {
+        d.setFullYear(d.getFullYear() - 543);
+    }
     return d.toISOString().split('T')[0];
 }
 
@@ -266,6 +270,10 @@ async function saveData() {
 }
 
 function formatDate(dateStr) {
-    const d = new Date(dateStr);
+    let d = new Date(dateStr);
+    // หากปีมากกว่า 2400 แสดงว่าเป็น พ.ศ. ให้แปลงเป็น ค.ศ. ก่อนเพื่อให้ toLocaleDateString('th-TH') ทำงานถูกต้อง
+    if (d.getFullYear() > 2400) {
+        d.setFullYear(d.getFullYear() - 543);
+    }
     return d.toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' });
 }

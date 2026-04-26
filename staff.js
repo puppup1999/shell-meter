@@ -35,12 +35,15 @@ async function fetchData() {
         renderMeterHistory();
     } catch (error) {
         console.error("Fetch error:", error);
-        renderMeterHistory(); // Use local if failed
+        renderMeterHistory();
     }
 }
 
 function formatDateForInput(dateStr) {
     const d = new Date(dateStr);
+    if (d.getFullYear() > 2400) {
+        d.setFullYear(d.getFullYear() - 543);
+    }
     return d.toISOString().split('T')[0];
 }
 
@@ -175,13 +178,12 @@ async function saveData() {
 
         await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // Important for Apps Script
+            mode: 'no-cors', 
             cache: 'no-cache',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
-        // Optimistic update
         const existingIndex = meterData.findIndex(d => d.date === date);
         if (existingIndex > -1) meterData[existingIndex].readings = readings;
         else meterData.push(payload);
@@ -190,7 +192,6 @@ async function saveData() {
         document.getElementById('entryModal').style.display = 'none';
         renderMeterHistory();
         
-        // Final sync
         setTimeout(fetchData, 2000); 
 
     } catch (error) {
@@ -202,6 +203,9 @@ async function saveData() {
 }
 
 function formatDate(dateStr) {
-    const d = new Date(dateStr);
+    let d = new Date(dateStr);
+    if (d.getFullYear() > 2400) {
+        d.setFullYear(d.getFullYear() - 543);
+    }
     return d.toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' });
 }
