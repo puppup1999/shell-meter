@@ -110,7 +110,7 @@ function generateInputs() {
         div.className = 'input-item';
         div.innerHTML = `
             <label>${name}</label>
-            <input type="number" step="1" name="head_${i}" placeholder="0" required>
+            <input type="number" step="1" name="head_${i}" placeholder="0">
         `;
         grid.appendChild(div);
     });
@@ -135,8 +135,8 @@ function renderMeterTab(container) {
                 <div class="card clickable" onclick="toggleDetails(${idx})">
                     <h2>${formatDate(item.date)} <span style="font-size: 0.8rem; opacity: 0.5;">#${item.readings.length} หัว</span></h2>
                     <div class="card-summary" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 0.8rem; margin-top: 10px;">
-                        <div>รวมมิเตอร์:</div>
-                        <div style="text-align: right; color: var(--accent-color); font-weight: 600;">${item.readings.reduce((a,b) => a+b, 0).toLocaleString()}</div>
+                        <div>จำนวนที่บันทึก:</div>
+                        <div style="text-align: right; color: var(--accent-color); font-weight: 600;">${item.readings.length} หัว</div>
                     </div>
                     <div id="details-${idx}" class="card-details" style="display: none; margin-top: 15px; border-top: 1px solid var(--glass-border); padding-top: 15px;">
                         <div class="details-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">
@@ -235,9 +235,20 @@ async function saveData() {
     const submitBtn = document.querySelector('#meterForm button[type="submit"]');
     const originalText = submitBtn.textContent;
     const date = document.getElementById('inputDate').value;
+    
+    // หาข้อมูลก่อนหน้านี้เพื่อใช้กรณีเว้นว่าง
+    const sorted = [...meterData].sort((a,b) => new Date(b.date) - new Date(a.date));
+    const previousEntry = sorted.find(d => new Date(d.date) < new Date(date));
+
     const readings = [];
     for (let i = 0; i < 18; i++) {
-        readings.push(parseInt(document.querySelector(`input[name="head_${i}"]`).value) || 0);
+        const inputVal = document.querySelector(`input[name="head_${i}"]`).value;
+        if (inputVal === "" && previousEntry) {
+            // ถ้าว่าง ให้ใช้ค่าของวันก่อนหน้า
+            readings.push(previousEntry.readings[i] || 0);
+        } else {
+            readings.push(parseInt(inputVal) || 0);
+        }
     }
 
     const payload = { date, readings };
